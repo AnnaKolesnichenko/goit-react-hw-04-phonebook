@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AddContact from './components/AddContact/AddContact';
 import Contacts from './components/Contacts/Contacts';
 import Filter from 'components/Filter/Filter';
@@ -36,22 +36,22 @@ const App = () => {
       setContacts(prevContacts => [newContact, ...prevContacts]);
     }
 
-//   componentDidMount() {
-//     const stored = JSON.parse(localStorage.getItem('contacts'));
-//     console.log(stored);
+    useEffect(() => {
+        const stored = localStorage.getItem('contacts');
 
-//     if(stored) {
-//       this.setState({contacts: stored});
-//     }
+        if(stored) {
+            setContacts(JSON.parse(stored));
+        }
 
-//   }
+    }, []);
 
-//   componentDidUpdate(prevProps, prevState) {
-//       if(this.state.contacts !== prevState.contacts) {
-//       console.log('renewed');
-//       localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-//     }
-//   }
+    useEffect(() => {
+        if(contacts) {
+            localStorage.setItem('contacts', JSON.stringify(contacts));
+        }
+    }, [contacts]);
+
+
 
   //filter by term
   const onGetFilterData = (e) =>{
